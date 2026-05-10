@@ -1,0 +1,151 @@
+/* ============================================================
+   darkmode.css — Dark Mode Toggle Styles
+   ============================================================ */
+
+/* ── Toggle Switch ──────────────────────────────────────────── */
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.dark-mode-toggle:hover {
+  border-color: var(--text-white);
+}
+
+.dark-mode-label {
+  font-size: var(--text-xs);
+  color: #CCC;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.toggle-track {
+  width: 38px;
+  height: 20px;
+  background-color: var(--amazon-navy-light);
+  border-radius: var(--radius-pill);
+  border: 2px solid rgba(255,255,255,0.3);
+  position: relative;
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 14px;
+  height: 14px;
+  background-color: #CCC;
+  border-radius: 50%;
+  transition: transform var(--transition-normal), background-color var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.toggle-thumb::after {
+  content: '☀️';
+  font-size: 9px;
+}
+
+/* Active / Dark state */
+[data-theme="dark"] .toggle-track {
+  background-color: var(--amazon-orange);
+  border-color: var(--amazon-orange-dark);
+}
+
+[data-theme="dark"] .toggle-thumb {
+  transform: translateX(18px);
+  background-color: #fff;
+}
+
+[data-theme="dark"] .toggle-thumb::after {
+  content: '🌙';
+}
+
+/* ── Smooth transitions for theme change ────────────────────── */
+body,
+.navbar,
+.nav-secondary,
+.product-card,
+.category-card,
+.cart-drawer,
+.cart-item,
+footer {
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+/* Dark mode specific overrides for non-variable elements */
+[data-theme="dark"] .search-category,
+[data-theme="dark"] .search-input {
+  background-color: #2A2F3E;
+  color: var(--text-primary);
+  border-color: var(--border-input);
+}
+
+[data-theme="dark"] .filter-btn {
+  background-color: var(--bg-card);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .filter-btn:hover {
+  background-color: #2A3040;
+}
+
+[data-theme="dark"] .filter-btn.active {
+  background-color: var(--amazon-orange);
+  color: var(--amazon-navy);
+}
+
+[data-theme="dark"] .sort-select {
+  background-color: var(--bg-card);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23AAA'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .product-img-wrapper {
+  background-color: #2A2F3E;
+}
+
+[data-theme="dark"] .hero-fade-bottom {
+  background: linear-gradient(transparent, var(--bg-primary));
+}
+
+[data-theme="dark"] .wishlist-btn {
+  background: rgba(30, 35, 48, 0.9);
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .wishlist-btn svg {
+  stroke: var(--text-secondary);
+}
+
+[data-theme="dark"] .btn-add-cart {
+  background: linear-gradient(to bottom, #c8960c, #a07608);
+  border-color: #7a5806;
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-checkout {
+  background: linear-gradient(to bottom, #c8960c, #a07608);
+  border-color: #7a5806;
+  color: #fff;
+}
+
+[data-theme="dark"] .cart-subtotal-label {
+  color: var(--text-secondary);
+}

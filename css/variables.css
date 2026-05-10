@@ -1,0 +1,163 @@
+/* ============================================================
+   variables.css — Design tokens for Amazon Clone
+   All colors, fonts, spacing, shadows live here.
+   ============================================================ */
+
+:root {
+  /* Brand Colors */
+  --amazon-orange:      #FF9900;
+  --amazon-orange-dark: #E47911;
+  --amazon-navy:        #131921;
+  --amazon-navy-mid:    #232F3E;
+  --amazon-navy-light:  #37475A;
+  --amazon-blue-link:   #007185;
+  --amazon-blue-hover:  #C7511F;
+
+  /* UI Colors */
+  --bg-primary:   #EAEDED;
+  --bg-white:     #FFFFFF;
+  --bg-card:      #FFFFFF;
+  --bg-footer:    #232F3E;
+
+  /* Text Colors */
+  --text-primary:   #0F1111;
+  --text-secondary: #565959;
+  --text-muted:     #767676;
+  --text-link:      #007185;
+  --text-orange:    #C45500;
+  --text-white:     #FFFFFF;
+
+  /* Star / Rating */
+  --star-color: #FFA41C;
+
+  /* Status */
+  --green-prime:  #067D62;
+  --red-sale:     #CC0C39;
+  --badge-new:    #CC0C39;
+
+  /* Border */
+  --border-light:  #DDD;
+  --border-input:  #A6A6A6;
+  --border-focus:  #E77600;
+  --border-card:   #DDD;
+
+  /* Shadows */
+  --shadow-card:   0 2px 5px 0 rgba(0,0,0,.13);
+  --shadow-nav:    0 2px 4px rgba(0,0,0,.3);
+  --shadow-modal:  0 8px 32px rgba(0,0,0,.22);
+
+  /* Spacing Scale */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Border Radius */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-pill: 999px;
+
+  /* Font Families */
+  --font-body:    'Amazon Ember', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Amazon Ember', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Font Sizes */
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 14px;
+  --text-md:   16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  28px;
+
+  /* Transitions */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow:   0.4s ease;
+
+  /* Z-index layers */
+  --z-nav:     100;
+  --z-cart:    200;
+  --z-overlay: 300;
+  --z-toast:   400;
+}
+
+/* ============================================================
+   Dark Mode Overrides
+   ============================================================ */
+[data-theme="dark"] {
+  --bg-primary:    #0F1111;
+  --bg-white:      #1A1F2B;
+  --bg-card:       #1E2330;
+  --bg-footer:     #0D1117;
+
+  --text-primary:   #E3E6E6;
+  --text-secondary: #A6ABAB;
+  --text-muted:     #6B7280;
+  --text-link:      #4FC3C8;
+
+  --border-light: #2D3748;
+  --border-card:  #2D3748;
+  --border-input: #4A5568;
+
+  --shadow-card:  0 2px 8px rgba(0,0,0,.5);
+  --shadow-nav:   0 2px 8px rgba(0,0,0,.6);
+}
+
+/* ============================================================
+   Global Reset & Base Styles
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 14px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--amazon-blue-hover);
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+  border: none;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+}

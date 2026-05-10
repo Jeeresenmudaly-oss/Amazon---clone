@@ -1,0 +1,438 @@
+/* ============================================================
+   nav.css — Top Navigation Bar Styles
+   ============================================================ */
+
+/* ── Main Nav Wrapper ──────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background-color: var(--amazon-navy);
+  color: var(--text-white);
+  box-shadow: var(--shadow-nav);
+  transition: background-color var(--transition-normal);
+}
+
+/* ── Primary Row (logo + search + account + cart) ──────────── */
+.nav-primary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  border-color: var(--text-white);
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 30px;
+  width: auto;
+}
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.nav-logo-text .logo-amazon {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--amazon-orange);
+  letter-spacing: -0.5px;
+}
+
+.nav-logo-text .logo-tagline {
+  font-size: var(--text-xs);
+  color: var(--text-white);
+  font-style: italic;
+}
+
+/* Delivery Location */
+.nav-location {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-location:hover {
+  border-color: var(--text-white);
+}
+
+.nav-location .loc-label {
+  font-size: var(--text-xs);
+  color: #CCC;
+}
+
+.nav-location .loc-city {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Search Bar */
+.nav-search {
+  flex: 1;
+  display: flex;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.search-category {
+  background-color: #F3F3F3;
+  border: none;
+  padding: 0 var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  border-right: 1px solid var(--border-input);
+  min-width: 65px;
+  max-width: 95px;
+  flex-shrink: 0;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  padding-right: 20px;
+}
+
+.search-category:focus {
+  outline: none;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 0 var(--space-sm);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--bg-white);
+  min-width: 0;
+}
+
+.search-input:focus {
+  outline: 3px solid var(--amazon-orange);
+  outline-offset: -3px;
+}
+
+.search-btn {
+  background-color: var(--amazon-orange);
+  border: none;
+  padding: 0 var(--space-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.search-btn:hover {
+  background-color: var(--amazon-orange-dark);
+}
+
+.search-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--amazon-navy);
+}
+
+/* Account Section */
+.nav-account {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-account:hover {
+  border-color: var(--text-white);
+}
+
+.nav-account .acct-label {
+  font-size: var(--text-xs);
+  color: #CCC;
+}
+
+.nav-account .acct-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+/* Returns & Orders */
+.nav-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: border-color var(--transition-fast);
+  text-decoration: none;
+  color: var(--text-white);
+}
+
+.nav-orders:hover {
+  border-color: var(--text-white);
+  text-decoration: none;
+  color: var(--text-white);
+}
+
+.nav-orders .ord-label {
+  font-size: var(--text-xs);
+  color: #CCC;
+}
+
+.nav-orders .ord-text {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+/* Cart */
+.nav-cart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--text-white);
+  position: relative;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-cart:hover {
+  border-color: var(--text-white);
+  text-decoration: none;
+  color: var(--text-white);
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-icon-wrapper svg {
+  width: 34px;
+  height: 34px;
+  fill: var(--text-white);
+}
+
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--amazon-orange);
+  color: var(--amazon-navy);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+  transition: transform 0.2s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.cart-count.bump {
+  transform: scale(1.4);
+}
+
+.cart-label {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  padding-bottom: 4px;
+}
+
+/* ── Secondary Nav Row (category links) ────────────────────── */
+.nav-secondary {
+  background-color: var(--amazon-navy-light);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-secondary::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-secondary-inner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 var(--space-md);
+  max-width: 1500px;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.nav-secondary a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--text-white);
+  font-size: var(--text-base);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-secondary a:hover {
+  border-color: var(--text-white);
+  text-decoration: none;
+  color: var(--text-white);
+}
+
+.nav-secondary a.featured {
+  font-weight: 700;
+}
+
+/* Hamburger (mobile) */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: var(--space-xs);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-hamburger:hover {
+  border-color: var(--text-white);
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--text-white);
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+/* Mobile Drawer */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--amazon-navy);
+  z-index: calc(var(--z-nav) + 10);
+  padding: var(--space-xl) var(--space-md);
+  overflow-y: auto;
+  transition: left var(--transition-normal);
+  box-shadow: 4px 0 20px rgba(0,0,0,.5);
+}
+
+.mobile-menu.open {
+  left: 0;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: calc(var(--z-nav) + 9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.mobile-menu-header .logo-amazon {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--amazon-orange);
+}
+
+.mobile-close {
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: var(--space-xs);
+}
+
+.mobile-menu a {
+  display: block;
+  color: var(--text-white);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--amazon-navy-light);
+  font-size: var(--text-md);
+  text-decoration: none;
+}
+
+.mobile-menu a:hover {
+  color: var(--amazon-orange);
+  text-decoration: none;
+}
+
+/* Dark mode nav adjustments */
+[data-theme="dark"] .navbar {
+  background-color: #0D1117;
+}
+
+[data-theme="dark"] .nav-secondary {
+  background-color: #1A1F2B;
+}
