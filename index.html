@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Clone — Shop Millions of Products</title>
+  <meta name="description" content="Amazon Clone — Electronics, Fashion, Home, Books and more. Free delivery on eligible orders.">
+
+  <!-- Prevent dark mode flash -->
+  <script>
+    try {
+      const t = localStorage.getItem('amazon_clone_theme');
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch {}
+  </script>
+
+  <!-- Styles — one file per concern -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/categories.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="stylesheet" href="css/darkmode.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOBILE OVERLAY + DRAWER
+     ═══════════════════════════════════════════════════════════ -->
+<div id="mobile-overlay" class="mobile-menu-overlay" role="presentation"></div>
+<nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation">
+  <div class="mobile-menu-header">
+    <span class="logo-amazon">amazon</span>
+    <button id="mobile-close" class="mobile-close" aria-label="Close menu">✕</button>
+  </div>
+  <a href="#hero">🏠 Home</a>
+  <a href="#categories">📦 Shop by Category</a>
+  <a href="#products" onclick="FilterManager.setCategory('electronics')">💻 Electronics</a>
+  <a href="#products" onclick="FilterManager.setCategory('fashion')">👗 Fashion</a>
+  <a href="#products" onclick="FilterManager.setCategory('home')">🏡 Home & Kitchen</a>
+  <a href="#products" onclick="FilterManager.setCategory('books')">📚 Books</a>
+  <a href="#products" onclick="FilterManager.setCategory('sports')">🏃 Sports</a>
+  <a href="#products" onclick="FilterManager.setCategory('beauty')">💄 Beauty</a>
+  <a href="#products" onclick="FilterManager.setCategory('toys')">🎮 Toys</a>
+  <a href="pages/checkout.html">🛒 Checkout</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVIGATION BAR
+     ═══════════════════════════════════════════════════════════ -->
+<header class="navbar" role="banner">
+
+  <!-- Primary Row -->
+  <div class="nav-primary">
+
+    <!-- Hamburger (mobile only) -->
+    <button id="nav-hamburger" class="nav-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Logo -->
+    <a href="index.html" class="nav-logo" aria-label="Amazon Clone — Go home">
+      <div class="nav-logo-text">
+        <span class="logo-amazon">amazon</span>
+        <span class="logo-tagline">.clone</span>
+      </div>
+    </a>
+
+    <!-- Delivery location -->
+    <div class="nav-location" aria-label="Delivery location">
+      <span class="loc-label">Deliver to</span>
+      <span class="loc-city">📍 Johannesburg</span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="nav-search" role="search">
+      <select class="search-category" aria-label="Select search category">
+        <option>All</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Home &amp; Kitchen</option>
+        <option>Books</option>
+        <option>Sports</option>
+        <option>Beauty</option>
+        <option>Toys</option>
+      </select>
+      <input type="search"
+             class="search-input"
+             placeholder="Search Amazon Clone"
+             aria-label="Search products"
+             autocomplete="off">
+      <button class="search-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1 0 3.35 3.35a7.5 7.5 0 0 0 13.3 13.3z"
+                stroke="#131921" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Account -->
+    <div class="nav-account" aria-label="Account">
+      <span class="acct-label">Hello, Sign in</span>
+      <span class="acct-name">Account &amp; Lists ▾</span>
+    </div>
+
+    <!-- Returns & Orders -->
+    <a href="#" class="nav-orders">
+      <span class="ord-label">Returns</span>
+      <span class="ord-text">&amp; Orders</span>
+    </a>
+
+    <!-- Dark mode toggle -->
+    <button id="dark-mode-toggle"
+            class="dark-mode-toggle"
+            aria-label="Switch to dark mode"
+            aria-pressed="false">
+      <span class="dark-mode-label">Dark</span>
+      <div class="toggle-track">
+        <div class="toggle-thumb"></div>
+      </div>
+    </button>
+
+    <!-- Cart -->
+    <a href="#" class="nav-cart" aria-label="Shopping cart" id="cart-toggle">
+      <div class="cart-icon-wrapper">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
+                stroke="white" stroke-width="1.5" fill="none"/>
+          <line x1="3" y1="6" x2="21" y2="6" stroke="white" stroke-width="1.5"/>
+          <path d="M16 10a4 4 0 01-8 0" stroke="white" stroke-width="1.5" fill="none"/>
+        </svg>
+        <span class="cart-count" aria-label="0 items in cart">0</span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+
+  </div><!-- /nav-primary -->
+
+  <!-- Secondary Row -->
+  <nav class="nav-secondary" aria-label="Product categories">
+    <div class="nav-secondary-inner">
+      <a href="#" class="featured" onclick="event.preventDefault(); FilterManager.setCategory('all')">☰ All</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('electronics')">Electronics</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('fashion')">Fashion</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('home')">Home &amp; Kitchen</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('books')">Books</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('sports')">Sports</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('beauty')">Beauty</a>
+      <a href="#" onclick="event.preventDefault(); FilterManager.setCategory('toys')">Toys</a>
+      <a href="#">Today's Deals</a>
+      <a href="#">Prime</a>
+      <a href="#">Customer Service</a>
+    </div>
+  </nav>
+
+</header><!-- /navbar -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     CART DRAWER
+     ═══════════════════════════════════════════════════════════ -->
+<div id="cart-overlay" class="cart-overlay" role="presentation"></div>
+
+<aside id="cart-drawer" class="cart-drawer" role="complementary" aria-label="Shopping cart">
+  <div class="cart-header">
+    <div class="cart-header-title">
+      🛒 Cart <span id="cart-header-count">0</span>
+    </div>
+    <button id="cart-close-btn" class="cart-close" aria-label="Close cart">✕</button>
+  </div>
+  <div id="cart-body" class="cart-body"></div>
+  <div id="cart-footer" class="cart-footer" style="display:none;"></div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════════════════════ -->
+<main id="main-content">
+
+  <!-- HERO CAROUSEL -->
+  <section id="hero" aria-label="Featured promotions">
+    <div id="hero-carousel" class="hero-carousel"></div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section id="categories" class="categories-section" aria-labelledby="categories-title">
+    <h2 class="section-title" id="categories-title">Shop by Category</h2>
+    <div id="categories-grid" class="categories-grid"></div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" class="products-section" aria-labelledby="products-title">
+
+    <div class="products-header">
+      <h2 class="section-title" id="products-title">Featured Products</h2>
+      <div class="products-toolbar">
+        <!-- Filter buttons rendered by products.js -->
+        <div id="category-filters" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+
+        <select id="sort-select" class="sort-select" aria-label="Sort products">
+          <option value="default">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Avg. Customer Review</option>
+          <option value="reviews">Most Reviewed</option>
+          <option value="discount">Biggest Discount</option>
+        </select>
+      </div>
+    </div>
+
+    <span id="results-count" class="results-count"></span>
+
+    <!-- Product Grid -->
+    <div id="products-grid" class="products-grid" role="list"
+         aria-label="Product listings"></div>
+
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section id="recommendations-section" class="recommendations-section"
+           aria-labelledby="rec-title">
+    <h2 class="section-title" id="rec-title">⭐ You May Also Like</h2>
+    <div id="recommendations-grid" class="recommendations-grid products-grid"></div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════ -->
+<button class="footer-top-btn" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  ▲ Back to top
+</button>
+
+<footer role="contentinfo">
+  <div class="footer-main">
+    <div class="footer-grid" id="footer-grid">
+      <div class="footer-col">
+        <h3>Get to Know Us</h3>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">About Amazon</a></li>
+          <li><a href="#">Investor Relations</a></li>
+          <li><a href="#">Amazon Devices</a></li>
+          <li><a href="#">Amazon Science</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Make Money with Us</h3>
+        <ul>
+          <li><a href="#">Sell products on Amazon</a></li>
+          <li><a href="#">Sell on Amazon Business</a></li>
+          <li><a href="#">Sell apps on Amazon</a></li>
+          <li><a href="#">Become an Affiliate</a></li>
+          <li><a href="#">Advertise Your Products</a></li>
+          <li><a href="#">Self-Publish with Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Amazon Payment Products</h3>
+        <ul>
+          <li><a href="#">Amazon Business Card</a></li>
+          <li><a href="#">Shop with Points</a></li>
+          <li><a href="#">Reload Your Balance</a></li>
+          <li><a href="#">Amazon Currency Converter</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Let Us Help You</h3>
+        <ul>
+          <li><a href="#">Amazon and COVID-19</a></li>
+          <li><a href="#">Your Account</a></li>
+          <li><a href="#">Your Orders</a></li>
+          <li><a href="#">Shipping Rates &amp; Policies</a></li>
+          <li><a href="#">Returns &amp; Replacements</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span class="footer-logo-bottom">amazon<span style="color:#fff;">.clone</span></span>
+      <div class="footer-links">
+        <a href="#">Conditions of Use</a>
+        <a href="#">Privacy Notice</a>
+        <a href="#">Interest-Based Ads</a>
+        <a href="#">Help</a>
+      </div>
+      <p class="footer-copy">
+        © 2025 Amazon Clone — Built for educational purposes. Not affiliated with Amazon.com, Inc.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS — load order matters
+     data → cart → wishlist → products → search → filter → hero → darkmode → nav → recommendations
+     ═══════════════════════════════════════════════════════════ -->
+<script src="js/products-data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
+<script src="js/products.js"></script>
+<script src="js/search.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/darkmode.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/recommendations.js"></script>
+
+<!-- Update cart header count on cart render -->
+<script>
+  // Sync cart drawer header count badge
+  const _origRender = CartManager.render.bind(CartManager);
+  // Patch render to also update header count badge
+  document.addEventListener('DOMContentLoaded', () => {
+    const origCartRender = CartManager.render;
+    // Wrap render to keep the cart-header-count in sync
+    setInterval(() => {
+      const hc = document.getElementById('cart-header-count');
+      if (hc) hc.textContent = CartManager.totalCount();
+    }, 300);
+  });
+</script>
+
+</body>
+</html>
