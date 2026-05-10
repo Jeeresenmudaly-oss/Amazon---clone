@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Amazon Clone</title>
+
+  <!-- Prevent dark mode flash -->
+  <script>
+    try {
+      const t = localStorage.getItem('amazon_clone_theme');
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch {}
+  </script>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/checkout.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <style>
+    body { background-color: var(--bg-primary); }
+  </style>
+</head>
+<body>
+
+<!-- Checkout Header -->
+<header class="checkout-header">
+  <a href="../index.html" class="logo-amazon">amazon<span style="color:#fff; font-size:14px;">.clone</span></a>
+  <span class="checkout-header-title">Secure Checkout</span>
+</header>
+
+<!-- Step Indicator -->
+<div class="checkout-steps" role="list">
+  <div class="checkout-step active" role="listitem">
+    <div class="step-num">1</div>
+    <div class="step-label">Shipping</div>
+  </div>
+  <div class="step-connector"></div>
+  <div class="checkout-step" role="listitem" id="step-2">
+    <div class="step-num">2</div>
+    <div class="step-label">Delivery</div>
+  </div>
+  <div class="step-connector" id="connector-2"></div>
+  <div class="checkout-step" role="listitem" id="step-3">
+    <div class="step-num">3</div>
+    <div class="step-label">Payment</div>
+  </div>
+  <div class="step-connector" id="connector-3"></div>
+  <div class="checkout-step" role="listitem" id="step-4">
+    <div class="step-num">4</div>
+    <div class="step-label">Review</div>
+  </div>
+</div>
+
+<!-- Main checkout layout -->
+<div class="checkout-main">
+
+  <!-- FORM PANEL -->
+  <div class="checkout-form-panel">
+
+    <!-- Section 1: Shipping Address -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="step-badge">1</span>
+        Shipping Address
+      </h2>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="first-name">First Name <span class="required">*</span></label>
+          <input type="text" id="first-name" class="form-input" placeholder="John" required autocomplete="given-name">
+          <span class="form-error-msg">Please enter your first name</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="last-name">Last Name <span class="required">*</span></label>
+          <input type="text" id="last-name" class="form-input" placeholder="Doe" required autocomplete="family-name">
+          <span class="form-error-msg">Please enter your last name</span>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label" for="address1">Street Address <span class="required">*</span></label>
+          <input type="text" id="address1" class="form-input" placeholder="123 Main Street" required autocomplete="address-line1">
+          <span class="form-error-msg">Please enter your street address</span>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label" for="address2">Apartment / Suite / Building (optional)</label>
+          <input type="text" id="address2" class="form-input" placeholder="Apt 4B" autocomplete="address-line2">
+        </div>
+      </div>
+
+      <div class="form-row three">
+        <div class="form-group">
+          <label class="form-label" for="city">City <span class="required">*</span></label>
+          <input type="text" id="city" class="form-input" placeholder="Cape Town" required autocomplete="address-level2">
+          <span class="form-error-msg">Please enter your city</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="province">Province <span class="required">*</span></label>
+          <select id="province" class="form-select form-input" required autocomplete="address-level1">
+            <option value="">Select province</option>
+            <option value="GP">Gauteng</option>
+            <option value="WC">Western Cape</option>
+            <option value="KZN">KwaZulu-Natal</option>
+            <option value="EC">Eastern Cape</option>
+            <option value="LP">Limpopo</option>
+            <option value="MP">Mpumalanga</option>
+            <option value="NW">North West</option>
+            <option value="FS">Free State</option>
+            <option value="NC">Northern Cape</option>
+          </select>
+          <span class="form-error-msg">Please select your province</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="postal">Postal Code <span class="required">*</span></label>
+          <input type="text" id="postal" class="form-input" placeholder="2000" required maxlength="4" pattern="[0-9]{4}" autocomplete="postal-code">
+          <span class="form-error-msg">Please enter a valid 4-digit postal code</span>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" class="form-input" placeholder="+27 82 000 0000" required autocomplete="tel">
+          <span class="form-error-msg">Please enter your phone number</span>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" class="form-input" placeholder="john@example.com" required autocomplete="email">
+          <span class="form-error-msg">Please enter a valid email address</span>
+        </div>
+      </div>
+    </div><!-- /Section 1 -->
+
+    <!-- Section 2: Delivery Options -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="step-badge">2</span>
+        Delivery Options
+      </h2>
+
+      <div class="delivery-options">
+
+        <label class="delivery-option selected" id="delivery-standard">
+          <input type="radio" name="delivery" value="standard" checked>
+          <div class="delivery-info">
+            <div class="delivery-name">📦 Standard Delivery</div>
+            <div class="delivery-desc">Arrives in 3–5 business days</div>
+          </div>
+          <div class="delivery-price">FREE</div>
+        </label>
+
+        <label class="delivery-option" id="delivery-express">
+          <input type="radio" name="delivery" value="express">
+          <div class="delivery-info">
+            <div class="delivery-name">⚡ Express Delivery</div>
+            <div class="delivery-desc">Arrives tomorrow before 6 PM</div>
+          </div>
+          <div class="delivery-price" id="express-price">R99.00</div>
+        </label>
+
+        <label class="delivery-option" id="delivery-sameday">
+          <input type="radio" name="delivery" value="sameday">
+          <div class="delivery-info">
+            <div class="delivery-name">🚀 Same-Day Delivery</div>
+            <div class="delivery-desc">Order before 12 PM — arrives today</div>
+          </div>
+          <div class="delivery-price">R149.00</div>
+        </label>
+
+      </div>
+    </div><!-- /Section 2 -->
+
+    <!-- Section 3: Payment (display only — no real payment) -->
+    <div class="form-section">
+      <h2 class="form-section-title">
+        <span class="step-badge">3</span>
+        Payment Method
+      </h2>
+
+      <div style="background:#f0f8ff; border:1px solid #b3d7ff; border-radius:8px; padding:16px; color:#0066cc; font-size:14px; display:flex; align-items:center; gap:12px;">
+        <span style="font-size:24px;">🔒</span>
+        <div>
+          <strong>Demo Checkout — No real payment required</strong><br>
+          <span style="color:#555;">This is a front-end clone. Click "Place Order" to see the confirmation page.</span>
+        </div>
+      </div>
+
+      <div class="form-row" style="margin-top:16px; opacity:0.6; pointer-events:none; filter:blur(2px);">
+        <div class="form-group">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-input" placeholder="•••• •••• •••• ••••" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cardholder Name</label>
+          <input type="text" class="form-input" placeholder="John Doe" disabled>
+        </div>
+      </div>
+      <div class="form-row three" style="opacity:0.6; pointer-events:none; filter:blur(2px);">
+        <div class="form-group">
+          <label class="form-label">Expiry Month</label>
+          <input type="text" class="form-input" placeholder="MM" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expiry Year</label>
+          <input type="text" class="form-input" placeholder="YY" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input type="text" class="form-input" placeholder="•••" disabled>
+        </div>
+      </div>
+    </div><!-- /Section 3 -->
+
+  </div><!-- /checkout-form-panel -->
+
+  <!-- ORDER SUMMARY -->
+  <div class="checkout-summary">
+    <div class="summary-card">
+      <div class="summary-title">Order Summary</div>
+
+      <!-- Cart Items -->
+      <div class="summary-items" id="summary-items">
+        <!-- Rendered by JS -->
+        <p style="color:#999; font-size:13px; text-align:center;">Loading cart…</p>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <!-- Price Breakdown -->
+      <div class="summary-line">
+        <span class="label">Items (<span id="summary-count">0</span>):</span>
+        <span class="value" id="summary-items-total">R0.00</span>
+      </div>
+      <div class="summary-line savings">
+        <span class="label">Savings:</span>
+        <span class="value" id="summary-savings">−R0.00</span>
+      </div>
+      <div class="summary-line free" id="delivery-line">
+        <span class="label">Delivery:</span>
+        <span class="value" id="summary-delivery">FREE</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-total">
+        <span class="label">Order Total:</span>
+        <span class="value" id="summary-total">R0.00</span>
+      </div>
+
+      <button class="btn-place-order" id="place-order-btn">
+        🔒 Place Your Order
+      </button>
+
+      <div class="secure-badge">
+        🔒 SSL Secured · No real charges
+      </div>
+    </div>
+  </div>
+
+</div><!-- /checkout-main -->
+
+<!-- Scripts -->
+<script src="../js/products-data.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/darkmode.js"></script>
+
+<script>
+/* ── Delivery option interactivity ──────────────────────── */
+let deliveryCost = 0;
+
+document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    // Remove selected class from all
+    document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('selected'));
+    // Add to parent label
+    this.closest('.delivery-option').classList.add('selected');
+
+    // Update cost
+    switch (this.value) {
+      case 'express':  deliveryCost = 99;  break;
+      case 'sameday':  deliveryCost = 149; break;
+      default:         deliveryCost = 0;   break;
+    }
+
+    // Update step indicator
+    document.getElementById('step-2').classList.add('completed');
+    document.getElementById('connector-2').style.backgroundColor = 'var(--green-prime)';
+
+    updateSummary();
+  });
+});
+
+/* ── Form validation highlight ──────────────────────────── */
+document.querySelectorAll('.form-input[required]').forEach(inp => {
+  inp.addEventListener('blur', function() {
+    if (!this.value.trim()) {
+      this.classList.add('error');
+    } else {
+      this.classList.remove('error');
+    }
+  });
+  inp.addEventListener('input', function() {
+    if (this.value.trim()) this.classList.remove('error');
+
+    // Mark step 1 as completed if key fields filled
+    const fields = ['first-name', 'last-name', 'address1', 'city', 'province', 'postal', 'phone', 'email'];
+    const allFilled = fields.every(f => {
+      const el = document.getElementById(f);
+      return el && el.value.trim();
+    });
+    if (allFilled) {
+      document.getElementById('step-2').classList.add('active');
+      document.getElementById('connector-2').style.backgroundColor = 'var(--amazon-orange)';
+    }
+  });
+});
+
+/* ── Render order summary ───────────────────────────────── */
+function updateSummary() {
+  const items = CartManager.getItems();
+  const subtotalVal = CartManager.subtotal();
+  const savingsVal  = CartManager.savings();
+  const totalVal    = subtotalVal + deliveryCost;
+
+  // Items count
+  document.getElementById('summary-count').textContent = CartManager.totalCount();
+  document.getElementById('summary-items-total').textContent = 'R' + subtotalVal.toFixed(2);
+  document.getElementById('summary-savings').textContent = savingsVal > 0 ? '−R' + savingsVal.toFixed(2) : 'R0.00';
+  document.getElementById('summary-delivery').textContent = deliveryCost === 0 ? 'FREE' : 'R' + deliveryCost.toFixed(2);
+  document.getElementById('summary-total').textContent = 'R' + totalVal.toFixed(2);
+
+  // Render items
+  const container = document.getElementById('summary-items');
+  if (items.length === 0) {
+    container.innerHTML = '<p style="color:#999; font-size:13px; text-align:center; padding:16px;">Your cart is empty. <a href="../index.html">Shop now</a></p>';
+    return;
+  }
+
+  container.innerHTML = items.map(({ product, quantity }) => `
+    <div class="summary-item">
+      <img class="summary-item-img" src="${product.img}" alt="${product.title}" loading="lazy">
+      <span class="summary-item-name">${product.title} ×${quantity}</span>
+      <span class="summary-item-price">R${(product.price * quantity).toFixed(2)}</span>
+    </div>
+  `).join('');
+}
+
+/* ── Place order button ─────────────────────────────────── */
+document.getElementById('place-order-btn').addEventListener('click', function() {
+  // Validate required fields
+  const required = document.querySelectorAll('.form-input[required]');
+  let valid = true;
+  required.forEach(inp => {
+    if (!inp.value.trim()) {
+      inp.classList.add('error');
+      valid = false;
+    }
+  });
+
+  if (!valid) {
+    CartManager.showToast('⚠️ Please fill in all required fields');
+    // Scroll to first error
+    const firstError = document.querySelector('.form-input.error');
+    firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Generate order number
+  const orderNum = 'AC-' + Date.now().toString(36).toUpperCase();
+  const total = (CartManager.subtotal() + deliveryCost).toFixed(2);
+
+  // Store order info for confirmation page
+  try {
+    localStorage.setItem('amazon_clone_last_order', JSON.stringify({
+      orderNum,
+      total,
+      itemCount: CartManager.totalCount(),
+      name: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
+      email: document.getElementById('email').value,
+    }));
+  } catch {}
+
+  // Clear cart
+  CartManager.clear();
+
+  // Redirect to confirmation
+  window.location.href = 'confirmation.html';
+});
+
+/* ── Init ───────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  updateSummary();
+});
+</script>
+
+</body>
+</html>

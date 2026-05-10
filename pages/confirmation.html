@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed! — Amazon Clone</title>
+
+  <script>
+    try {
+      const t = localStorage.getItem('amazon_clone_theme');
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch {}
+  </script>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/checkout.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <style>
+    body {
+      background-color: var(--bg-primary);
+      min-height: 100vh;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -20px;
+      animation: confettiFall linear forwards;
+      border-radius: 2px;
+    }
+
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg) translateX(var(--drift)); opacity: 0; }
+    }
+
+    .checkout-header {
+      background-color: var(--amazon-navy);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .checkout-header .logo-amazon {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--amazon-orange);
+      text-decoration: none;
+    }
+
+    .detail-list {
+      list-style: none;
+      margin: 0 0 24px;
+      padding: 0;
+    }
+
+    .detail-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .detail-list li:last-child { border-bottom: none; }
+
+    .detail-list li strong {
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Confetti Canvas -->
+<div class="confetti" id="confetti-container"></div>
+
+<!-- Header -->
+<header class="checkout-header">
+  <a href="../index.html" class="logo-amazon">amazon<span style="color:#fff; font-size:14px;">.clone</span></a>
+</header>
+
+<!-- Confirmation Card -->
+<div class="confirmation-page">
+  <div class="confirmation-card">
+    <div class="confirmation-icon">🎉</div>
+
+    <h1 class="confirmation-title">Order Confirmed!</h1>
+    <p class="confirmation-subtitle" id="confirm-subtitle">
+      Thank you for your order! We'll send a confirmation email shortly.
+    </p>
+
+    <div class="order-number" id="order-number-box">
+      <span>Order #</span>
+      <strong id="order-number-val">—</strong>
+    </div>
+
+    <!-- Order details -->
+    <ul class="detail-list" id="order-details">
+      <li>
+        <span>Status</span>
+        <strong style="color: var(--green-prime);">✅ Confirmed & Processing</strong>
+      </li>
+      <li id="detail-name" style="display:none;">
+        <span>Customer</span>
+        <strong id="detail-name-val">—</strong>
+      </li>
+      <li id="detail-email" style="display:none;">
+        <span>Email</span>
+        <strong id="detail-email-val">—</strong>
+      </li>
+      <li id="detail-items" style="display:none;">
+        <span>Items Ordered</span>
+        <strong id="detail-items-val">—</strong>
+      </li>
+      <li id="detail-total" style="display:none;">
+        <span>Order Total</span>
+        <strong id="detail-total-val" style="color: var(--red-sale);">—</strong>
+      </li>
+      <li>
+        <span>Estimated Delivery</span>
+        <strong id="detail-delivery">—</strong>
+      </li>
+    </ul>
+
+    <a href="../index.html" class="btn-back-home">
+      Continue Shopping
+    </a>
+  </div>
+</div>
+
+<script>
+  /* ── Load order details ──────────────────────────────────── */
+  (function() {
+    try {
+      const raw = localStorage.getItem('amazon_clone_last_order');
+      if (!raw) return;
+      const order = JSON.parse(raw);
+
+      document.getElementById('order-number-val').textContent = order.orderNum || '—';
+
+      if (order.name) {
+        document.getElementById('confirm-subtitle').textContent =
+          `Thank you, ${order.name.split(' ')[0]}! We'll send a confirmation to ${order.email || 'your email'}.`;
+        document.getElementById('detail-name').style.display = 'flex';
+        document.getElementById('detail-name-val').textContent = order.name;
+      }
+
+      if (order.email) {
+        document.getElementById('detail-email').style.display = 'flex';
+        document.getElementById('detail-email-val').textContent = order.email;
+      }
+
+      if (order.itemCount) {
+        document.getElementById('detail-items').style.display = 'flex';
+        document.getElementById('detail-items-val').textContent = order.itemCount + ' item(s)';
+      }
+
+      if (order.total) {
+        document.getElementById('detail-total').style.display = 'flex';
+        document.getElementById('detail-total-val').textContent = 'R' + order.total;
+      }
+
+      // Estimated delivery: 3 business days from now
+      const delivery = new Date();
+      delivery.setDate(delivery.getDate() + 3);
+      document.getElementById('detail-delivery').textContent =
+        delivery.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+      // Clean up
+      localStorage.removeItem('amazon_clone_last_order');
+    } catch (e) {
+      console.warn('Could not load order details', e);
+    }
+  })();
+
+  /* ── Confetti ────────────────────────────────────────────── */
+  (function spawnConfetti() {
+    const container = document.getElementById('confetti-container');
+    const colors = ['#FF9900', '#FFD700', '#FF6B6B', '#4CAF50', '#2196F3', '#9C27B0', '#FF5722'];
+    const count = 80;
+
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width  = (Math.random() * 8 + 6) + 'px';
+        piece.style.height = (Math.random() * 12 + 6) + 'px';
+        piece.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.animationDelay = Math.random() * 1 + 's';
+        container.appendChild(piece);
+        // Remove after animation
+        setTimeout(() => piece.remove(), 5000);
+      }, i * 30);
+    }
+  })();
+
+  /* ── Dark mode ───────────────────────────────────────────── */
+  try {
+    const t = localStorage.getItem('amazon_clone_theme');
+    if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch {}
+</script>
+
+</body>
+</html>
