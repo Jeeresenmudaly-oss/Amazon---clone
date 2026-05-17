@@ -9,7 +9,6 @@
   <!-- Prevent dark mode flash -->
   <script>
     try {
-      const t = localStorage.getItem('amazon_clone_theme');
       if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch {}
   </script>
@@ -160,20 +159,9 @@
 </header><!-- /navbar -->
 
 <!-- ═══════════════════════════════════════════════════════════
-     CART DRAWER
+     CART DRAWER — rendered by React (CartDrawerRoot)
      ═══════════════════════════════════════════════════════════ -->
-<div id="cart-overlay" class="cart-overlay" role="presentation"></div>
-
-<aside id="cart-drawer" class="cart-drawer" role="complementary" aria-label="Shopping cart">
-  <div class="cart-header">
-    <div class="cart-header-title">
-      🛒 Cart <span id="cart-header-count">0</span>
-    </div>
-    <button id="cart-close-btn" class="cart-close" aria-label="Close cart">✕</button>
-  </div>
-  <div id="cart-body" class="cart-body"></div>
-  <div id="cart-footer" class="cart-footer" style="display:none;"></div>
-</aside>
+<div id="cart-react-root"></div>
 
 <!-- ═══════════════════════════════════════════════════════════
      MAIN CONTENT
@@ -213,8 +201,8 @@
 
     <span id="results-count" class="results-count"></span>
 
-    <!-- Product Grid -->
-    <div id="products-grid" class="products-grid" role="list"
+    <!-- Product Grid — rendered by React (ProductGridRoot) -->
+    <div id="products-react-root" class="products-grid" role="list"
          aria-label="Product listings"></div>
 
   </section>
@@ -223,7 +211,8 @@
   <section id="recommendations-section" class="recommendations-section"
            aria-labelledby="rec-title">
     <h2 class="section-title" id="rec-title">⭐ You May Also Like</h2>
-    <div id="recommendations-grid" class="recommendations-grid products-grid"></div>
+    <!-- Recommendations Grid — rendered by React (RecommendationsRoot) -->
+    <div id="recommendations-react-root" class="recommendations-grid products-grid"></div>
   </section>
 
 </main>
@@ -314,20 +303,13 @@
 <script src="js/nav.js"></script>
 <script src="js/recommendations.js"></script>
 
-<!-- Update cart header count on cart render -->
-<script>
-  // Sync cart drawer header count badge
-  const _origRender = CartManager.render.bind(CartManager);
-  // Patch render to also update header count badge
-  document.addEventListener('DOMContentLoaded', () => {
-    const origCartRender = CartManager.render;
-    // Wrap render to keep the cart-header-count in sync
-    setInterval(() => {
-      const hc = document.getElementById('cart-header-count');
-      if (hc) hc.textContent = CartManager.totalCount();
-    }, 300);
-  });
-</script>
+<!-- React 18 + Babel Standalone (JSX in browser, no build step) -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- React components — must be last; Babel transpiles JSX at runtime -->
+<script type="text/babel" src="js/react/components.jsx"></script>
 
 </body>
 </html>
