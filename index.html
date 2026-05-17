@@ -526,40 +526,50 @@ function mountReactComponents() {
   if (productsEl) createRoot(productsEl).render(_R(ProductGridRoot, null));
   if (recsEl)     createRoot(recsEl).render(_R(RecommendationsRoot, null));
 
-  /* Defensive patches — ensure React always receives events even if
-     the JS files on the server are older versions without event dispatch. */
+  /* Defensive patches — ensure React always receives events regardless of
+     which version of the vanilla JS files is on the server. */
 
-  if (typeof FilterManager !== 'undefined') {
-    const _applyAll = FilterManager.applyAll;
-    FilterManager.applyAll = function() {
-      _applyAll.call(this);
-      window.dispatchEvent(new CustomEvent('products-filtered', {
-        detail: { products: FilterManager.getFilteredProducts() }
-      }));
-    };
-    FilterManager.applyAll();
-  }
+  try {
+    if (typeof FilterManager !== 'undefined') {
+      const _applyAll = FilterManager.applyAll;
+      FilterManager.applyAll = function() {
+        _applyAll.call(this);
+        window.dispatchEvent(new CustomEvent('products-filtered', {
+          detail: { products: FilterManager.getFilteredProducts() }
+        }));
+      };
+      FilterManager.applyAll();
+    }
+  } catch(e) {}
 
-  if (typeof CartManager !== 'undefined') {
-    const _dispatchCart = () => window.dispatchEvent(new CustomEvent('cart-state-changed', {
-      detail: { isOpen: CartManager.getIsOpen(), items: CartManager.getItems().slice() }
-    }));
-    ['addItem','removeItem','updateQty','setQty','clear','open','close','toggle'].forEach(fn => {
-      const orig = CartManager[fn].bind(CartManager);
-      CartManager[fn] = function(...args) { orig(...args); _dispatchCart(); };
-    });
-    _dispatchCart();
-  }
+  try {
+    if (typeof CartManager !== 'undefined') {
+      const _dispatchCart = () => {
+        const isOpen = typeof CartManager.getIsOpen === 'function' ? CartManager.getIsOpen() : false;
+        window.dispatchEvent(new CustomEvent('cart-state-changed', {
+          detail: { isOpen: isOpen, items: CartManager.getItems().slice() }
+        }));
+      };
+      ['addItem','removeItem','updateQty','setQty','clear','open','close','toggle'].forEach(fn => {
+        if (typeof CartManager[fn] !== 'function') return;
+        const orig = CartManager[fn].bind(CartManager);
+        CartManager[fn] = function(...args) { orig(...args); _dispatchCart(); };
+      });
+      _dispatchCart();
+    }
+  } catch(e) {}
 
-  if (typeof WishlistManager !== 'undefined') {
-    const origToggle = WishlistManager.toggle.bind(WishlistManager);
-    WishlistManager.toggle = function(id) {
-      origToggle(id);
-      window.dispatchEvent(new CustomEvent('wishlist-state-changed', {
-        detail: { ids: WishlistManager.getAll().map(p => p.id) }
-      }));
-    };
-  }
+  try {
+    if (typeof WishlistManager !== 'undefined') {
+      const origToggle = WishlistManager.toggle.bind(WishlistManager);
+      WishlistManager.toggle = function(id) {
+        origToggle(id);
+        window.dispatchEvent(new CustomEvent('wishlist-state-changed', {
+          detail: { ids: WishlistManager.getAll().map(p => p.id) }
+        }));
+      };
+    }
+  } catch(e) {}
 }
 
 if (document.readyState === 'loading') {
