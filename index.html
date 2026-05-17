@@ -410,7 +410,7 @@ function ProductGridRoot() {
 function CartDrawerRoot() {
   const [cartState, setCartState] = React.useState(() => ({
     items:  typeof CartManager !== 'undefined' ? CartManager.getItems()  : [],
-    isOpen: typeof CartManager !== 'undefined' ? CartManager.getIsOpen() : false,
+    isOpen: (typeof CartManager !== 'undefined' && typeof CartManager.getIsOpen === 'function') ? CartManager.getIsOpen() : false,
   }));
   React.useEffect(() => {
     const handler = (ev) => setCartState({ items: ev.detail.items, isOpen: ev.detail.isOpen });
@@ -519,12 +519,18 @@ function RecommendationsRoot() {
 /* ── Mount all React roots ── */
 function mountReactComponents() {
   const { createRoot } = ReactDOM;
+
+  /* Pre-flight: polyfill getIsOpen on old cart.js versions that lack it. */
+  if (typeof CartManager !== 'undefined' && typeof CartManager.getIsOpen !== 'function') {
+    CartManager.getIsOpen = function() { return false; };
+  }
+
   const cartEl     = document.getElementById('cart-react-root');
   const productsEl = document.getElementById('products-react-root');
   const recsEl     = document.getElementById('recommendations-react-root');
-  if (cartEl)     createRoot(cartEl).render(_R(CartDrawerRoot, null));
-  if (productsEl) createRoot(productsEl).render(_R(ProductGridRoot, null));
-  if (recsEl)     createRoot(recsEl).render(_R(RecommendationsRoot, null));
+  try { if (cartEl)     createRoot(cartEl).render(_R(CartDrawerRoot, null)); }     catch(e) { console.error('CartDrawerRoot mount failed:', e); }
+  try { if (productsEl) createRoot(productsEl).render(_R(ProductGridRoot, null)); } catch(e) { console.error('ProductGridRoot mount failed:', e); }
+  try { if (recsEl)     createRoot(recsEl).render(_R(RecommendationsRoot, null)); } catch(e) { console.error('RecommendationsRoot mount failed:', e); }
 
   /* Defensive patches — ensure React always receives events regardless of
      which version of the vanilla JS files is on the server. */
