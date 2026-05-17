@@ -525,6 +525,41 @@ function mountReactComponents() {
   if (cartEl)     createRoot(cartEl).render(_R(CartDrawerRoot, null));
   if (productsEl) createRoot(productsEl).render(_R(ProductGridRoot, null));
   if (recsEl)     createRoot(recsEl).render(_R(RecommendationsRoot, null));
+
+  /* Defensive patches — ensure React always receives events even if
+     the JS files on the server are older versions without event dispatch. */
+
+  if (typeof FilterManager !== 'undefined') {
+    const _applyAll = FilterManager.applyAll;
+    FilterManager.applyAll = function() {
+      _applyAll.call(this);
+      window.dispatchEvent(new CustomEvent('products-filtered', {
+        detail: { products: FilterManager.getFilteredProducts() }
+      }));
+    };
+    FilterManager.applyAll();
+  }
+
+  if (typeof CartManager !== 'undefined') {
+    const _dispatchCart = () => window.dispatchEvent(new CustomEvent('cart-state-changed', {
+      detail: { isOpen: CartManager.getIsOpen(), items: CartManager.getItems().slice() }
+    }));
+    ['addItem','removeItem','updateQty','setQty','clear','open','close','toggle'].forEach(fn => {
+      const orig = CartManager[fn].bind(CartManager);
+      CartManager[fn] = function(...args) { orig(...args); _dispatchCart(); };
+    });
+    _dispatchCart();
+  }
+
+  if (typeof WishlistManager !== 'undefined') {
+    const origToggle = WishlistManager.toggle.bind(WishlistManager);
+    WishlistManager.toggle = function(id) {
+      origToggle(id);
+      window.dispatchEvent(new CustomEvent('wishlist-state-changed', {
+        detail: { ids: WishlistManager.getAll().map(p => p.id) }
+      }));
+    };
+  }
 }
 
 if (document.readyState === 'loading') {
