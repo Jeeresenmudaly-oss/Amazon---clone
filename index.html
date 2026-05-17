@@ -303,13 +303,12 @@
 <script src="js/nav.js"></script>
 <script src="js/recommendations.js"></script>
 
-<!-- React 18 + Babel Standalone (JSX in browser, no build step) -->
+<!-- React 18 + ReactDOM 18 (CDN, no build step) -->
 <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-<!-- React components — must be last; Babel transpiles JSX at runtime -->
-<script type="text/babel" src="js/react/components.jsx"></script>
+<!-- React components — plain script, no Babel/JSX needed -->
+<script src="js/react/components.jsx"></script>
 
 </body>
 </html>
